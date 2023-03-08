@@ -2,7 +2,7 @@
 
 import express from 'express'
 import dotenv from 'dotenv' 
-// import cors from 'cors'
+ import cors from 'cors'
 import conectardb from './config/db.js'
 import usuarioRoutes from './routes/usuarioRoutes.js'
 import proyectosroutes from './routes/proyectosroutes.js'
@@ -21,11 +21,12 @@ dotenv.config()
 conectardb();
 
 // configurar cors
-/*const whitelist = ['http://localhost:5173/']
+const whitelist = ['http://localhost:5173']
 
 const corsOptions = {
     origin: function(origin, calllback) {
         if(whitelist.includes(origin)) {
+            console.log('origin', origin)
             // puede consultar la api
             calllback(null, true)
 
@@ -37,7 +38,7 @@ const corsOptions = {
     }
 }
 app.use(cors(corsOptions) );
-*/
+
 
 // routing 
 app.use('/api/usuarios', usuarioRoutes );
