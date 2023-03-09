@@ -21,10 +21,14 @@ dotenv.config()
 conectardb();
 
 // configurar cors
-const whitelist = ['http://localhost:5173', 'http://localhost:4000']
+//const whitelist = [ "'*'", "http://localhost:5173", "http://localhost:4000", "https://uptaskbackendexp.azurewebsites.net" ]
 
+/*
+const whitelist = ["http://127.0.0.1:4000"]
 const corsOptions = {
     origin: function(origin, calllback) {
+        console.log('origin', origin)
+
         if(whitelist.includes(origin)) {
             console.log('origin', origin)
             // puede consultar la api
@@ -36,15 +40,27 @@ const corsOptions = {
 
         }
     }
-}
-app.use(cors(corsOptions) );
+}*/
+
+
+const corsOptionspla =
+
+{
+    "origin": "*",
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+    "preflightContinue": false,
+    "optionsSuccessStatus": 204
+  }
+
+
+
+app.use(cors(corsOptionspla) );
 
 
 // routing 
 app.use('/api/usuarios', usuarioRoutes );
 app.use('/api/proyectos', proyectosroutes );
 app.use('/api/tarea', tareaRoute );
-
 
 
 
