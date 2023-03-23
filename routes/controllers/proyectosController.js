@@ -5,6 +5,7 @@ import Tarea from "../../models/Tarea.js";
 const obtenerProyectos = async (req, res) => {
     const proyectos = await Proyecto.find()
     .where("creador").equals(req.usuario)
+    .select("-tareas")
 
     res.json(proyectos);
 
@@ -31,7 +32,7 @@ const obtenerProyecto = async (req, res) => {
     const {id} = req.params 
     console.log(id)
 
-    const proyecto = await Proyecto.findById(id)
+    const proyecto = await Proyecto.findById(id).populate('tareas')
 
     if(!proyecto) {
       
