@@ -20,6 +20,7 @@ dotenv.config()
 
 conectardb();
 
+
 // configurar cors
 //const whitelist = [ "'*'", "http://localhost:5173", "http://localhost:4000", "https://uptaskbackendexp.azurewebsites.net" ]
 

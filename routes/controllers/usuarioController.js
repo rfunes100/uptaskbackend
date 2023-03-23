@@ -2,6 +2,7 @@ import Usuario from "../../models/Usuario.js"
 import generarid from "../../helpers/generarid.js";
 import generarjwt from "../../helpers/generarjwt.js";
 
+import { emailRegistro , emailolvidepassword } from "../../helpers/emails.js"
 
 const registrar = async  (req, res) => {
 
@@ -19,8 +20,16 @@ const registrar = async  (req, res) => {
     try {
         const usuario = new Usuario(req.body)
         usuario.token = generarid() ;
-        const usuarioalmacenado = await usuario.save()
-        res.json(usuarioalmacenado)
+         await usuario.save()
+         // enviar email de confirmacion
+         console.log(usuario)
+         emailRegistro({
+            email: usuario.email,
+            nombre: usuario.nombre,
+            token: usuario.token,
+         })
+
+        res.json( { msg: 'usuario creado correctamnete , Revisa tu email '})
 
         
     } catch (error) {
@@ -122,6 +131,16 @@ const olvidepassword =  async (req, res) => {
 try {
     usuario.token = generarid()
     await usuario.save();
+
+    // enviar email 
+    emailolvidepassword({
+        email: usuario.email,
+        nombre: usuario.nombre,
+        token: usuario.token
+
+    })
+
+
     res.json({msg: "Hemos enviado un email con las instrucciones"})
     console.log(usuario)
     

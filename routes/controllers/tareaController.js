@@ -24,6 +24,11 @@ const agregarTarea = async (req, res) => {
 
   try {
     const tarealmacenada = await Tarea.create(req.body)
+
+    existeproyecto.tareas.push(tarealmacenada._id)
+    await existeproyecto.save()
+
+
     res.json(tarealmacenada)
 
     
