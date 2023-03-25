@@ -9,7 +9,8 @@ import {
     editarProyecto,
     obtenerProyecto,
     obtenerProyectos,
-    nuevoPoryecto
+    nuevoPoryecto,
+    buscarColaborador
     }
  from "./controllers/proyectosController.js";
 
@@ -33,8 +34,11 @@ import { autenticar } from "./controllers/usuarioController.js";
 
 
  router.get('/tareas/:id', checkAuth, obtenerTareas )
- router.post('/agregar-colaborador/:id', checkAuth, agregarColaborador)
- router.post('/eliminar-colaborador/:id', checkAuth, eliminarColaborador)
+ router.post('/colaboradores/:id', checkAuth, agregarColaborador)
+ router.delete('/colaboradores/:id', checkAuth, eliminarColaborador)
+ router.post('/colaboradores', checkAuth, buscarColaborador)
+ 
+
  
 
  export default router ;
