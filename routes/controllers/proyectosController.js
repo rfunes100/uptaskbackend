@@ -34,6 +34,8 @@ const obtenerProyecto = async (req, res) => {
     console.log(id)
 
     const proyecto = await Proyecto.findById(id).populate('tareas')
+    .populate('colaborado' ,"nombre email  ")
+
 
     if(!proyecto) {
       
