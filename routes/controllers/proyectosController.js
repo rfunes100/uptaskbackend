@@ -212,6 +212,29 @@ const agregarColaborador = async (req, res) => {
 
 const eliminarColaborador = async (req, res) => {
  
+    console.log(req.params.id)
+
+    const proyecto = await Proyecto.findById(req.params.id)
+
+    if (!proyecto) { 
+        const error = new Error('proyect no encontrado')
+        return res.status(404).json({ msg: error.message});
+    }
+
+    if(proyecto.creador.toString() !== req.usuario._id.toString() ) {
+        const error = new Error('accion no valida')
+        return res.status(404).json({ msg: error.message});
+    }
+
+ 
+    proyecto.colaborado.pull(req.body.id)
+    await proyecto.save() 
+    res.json({ msg: 'colbaraodr eliminado correctamente' })
+
+
+
+  
+
 }
 
 const obtenerTareas = async (req, res) => {
