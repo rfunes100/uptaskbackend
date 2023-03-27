@@ -185,7 +185,7 @@ const agregarColaborador = async (req, res) => {
     }
 
     // el colaborador no es el admin 
-    if(proyecto.creador.toString() !== usuario._id.toString()) {
+    if(proyecto.creador.toString() === usuario._id.toString()) {
         const error = new Error('el creador del proyeto no puede ser colaborador')
         return res.status(404).json({ msg: error.message});
 
