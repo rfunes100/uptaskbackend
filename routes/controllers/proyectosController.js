@@ -6,8 +6,8 @@ import Usuario from "../../models/Usuario.js";
 const obtenerProyectos = async (req, res) => {
     const proyectos = await Proyecto.find({
         '$or': [
-            {'colaborado': { $in: req.Usuario }},
-            {'creador': { $in: req.Usuario }}
+            {'colaborado': { $in: req.usuario }},
+            {'creador': { $in: req.usuario }}
 
         ]
     })
