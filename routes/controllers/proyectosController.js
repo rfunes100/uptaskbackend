@@ -49,7 +49,10 @@ const obtenerProyecto = async (req, res) => {
     }
     
 
-    if(proyecto.creador.toString() !==  req.usuario._id.toString() ) {
+    if( (proyecto.creador.toString() !==  req.usuario._id.toString() ) && 
+    !proyecto.colaborado.some( colaborador => colaborador._id.toString() ===
+    req.usuario._id.toString() )
+     ) {
         const error = new Error('no tienes permisos')
         return res.status(401).json({ msg: error.message});
 

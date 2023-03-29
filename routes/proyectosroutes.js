@@ -28,7 +28,7 @@ import { autenticar } from "./controllers/usuarioController.js";
 
 
  router.route('/:id')
- .get( checkAuth , obtenerProyecto)
+ .get( /*checkAuth*/  obtenerProyecto)
  .put( checkAuth , editarProyecto)
  .delete( checkAuth, eliminarProyecto)
 
