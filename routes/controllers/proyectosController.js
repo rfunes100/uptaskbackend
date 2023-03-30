@@ -37,10 +37,14 @@ const nuevoPoryecto = async (req, res) => {
 const obtenerProyecto = async (req, res) => {
     const {id} = req.params 
     console.log(id)
+    console.log(req.params.id)
+    //console.log(req.usuario)
+
 
     const proyecto = await Proyecto.findById(id).populate('tareas')
     .populate('colaborado' ,"nombre email  ")
 
+    console.log(proyecto)
 
     if(!proyecto) {
       
@@ -48,15 +52,21 @@ const obtenerProyecto = async (req, res) => {
         return res.status(404).json({ msg: error.message});
     }
     
+     const { email } = req.body
 
-    if( (proyecto.creador.toString() !==  req.usuario._id.toString() ) && 
-    !proyecto.colaborado.some( colaborador => colaborador._id.toString() ===
-    req.usuario._id.toString() )
-     ) {
-        const error = new Error('no tienes permisos')
-        return res.status(401).json({ msg: error.message});
+    const usuario = await Usuario.findOne({email}).
+    select('-confirmado -createdAt -password -token -updatedAt -__v')
+
+    
+
+    // el colaborador no es el admin 
+    if(proyecto.creador.toString() !== usuario._id.toString() && 
+    !proyecto.colaborado.some( colaborador=> colaborador._id.toString() === usuario._id.toString()  )  ) {
+        const error = new Error('no tiene accesos')
+        return res.status(404).json({ msg: error.message});
 
     }
+
 
 
     
