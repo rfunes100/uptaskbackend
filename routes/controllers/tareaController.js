@@ -136,6 +136,47 @@ const eliminarTarea = async (req, res) => {
 
 const cambiarEstado = async (req, res) => {
 
+    
+    const {id} = req.params
+    console.log(id)
+
+
+    const tarea = await Tarea.findById(id).populate("proyecto")
+
+    if(!tarea) {
+        const error = new Error(' tarea no encontrada')
+        return res.status(404).json({ msg: error.message})
+
+    }
+
+    if(tarea.proyecto.creador.toString() !== req.usuario._id.toString()) {
+        const error = new Error('no tiene permisos para ver')
+        return res.status(403).json({ msg: error.message})
+
+    }
+
+        
+    const { email } = req.body
+
+    const usuario = await Usuario.findOne({email}).
+    select('-confirmado -createdAt -password -token -updatedAt -__v')
+
+    
+
+    // el colaborador no es el admin 
+    if(tarea.proyecto.creador.toString() !== usuario._id.toString() && 
+    !tarea.proyecto.colaborado.some( colaborador=> colaborador._id.toString() === usuario._id.toString()  )  ) {
+        const error = new Error('no tiene accesos')
+        return res.status(404).json({ msg: error.message});
+
+    }
+
+    tarea.estado =  !tarea.estado
+    await tarea.save()
+    res.json(tarea)
+
+
+    
 }
 
 export {
