@@ -1,6 +1,8 @@
 
 import Proyecto from "../../models/Proyecto.js"
 import Tarea from "../../models/Tarea.js"
+import Usuario from "../../models/Usuario.js";
+
 
 
 const agregarTarea = async (req, res) => {
@@ -143,25 +145,22 @@ const cambiarEstado = async (req, res) => {
 
     const tarea = await Tarea.findById(id).populate("proyecto")
 
-    if(!tarea) {
-        const error = new Error(' tarea no encontrada')
-        return res.status(404).json({ msg: error.message})
-
-    }
-
-    if(tarea.proyecto.creador.toString() !== req.usuario._id.toString()) {
-        const error = new Error('no tiene permisos para ver')
-        return res.status(403).json({ msg: error.message})
-
-    }
-
-        
     const { email } = req.body
 
     const usuario = await Usuario.findOne({email}).
     select('-confirmado -createdAt -password -token -updatedAt -__v')
 
     
+
+    console.log(tarea)
+    if(!tarea) {
+        const error = new Error(' tarea no encontrada')
+        return res.status(404).json({ msg: error.message})
+
+    }
+
+    
+
 
     // el colaborador no es el admin 
     if(tarea.proyecto.creador.toString() !== usuario._id.toString() && 
