@@ -77,6 +77,12 @@ import { Server  } from 'socket.io';
 
 const io = new Server(servidor, {
  pingTimeout: 60000 ,
+ cors: {
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+ }
 })
 
 io.on('connection', (socket) => {
