@@ -106,7 +106,14 @@ io.on('connection', (socket) => {
     socket.on('nueva tarea', (tarea) => {
         console.log('socket tarea', tarea)
         const proyecto  = tarea.proyecto 
-        socket.on(proyecto).emit('tarea agregada',tarea )
+        socket.to(proyecto).emit('tarea agregada',tarea )
+
+    })
+
+    socket.on('eliminar tarea', (tarea) => {
+        const proyecto  = tarea.proyecto 
+        socket.to(proyecto).emit('tarea eliminada', tarea)
+
 
     })
 
