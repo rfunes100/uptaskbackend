@@ -89,12 +89,25 @@ io.on('connection', (socket) => {
     console.log('conectado a socket io')
 
     // eventos de socket io 
-    socket.on('prueba', (proyectos) => {
-        console.log('desde socket io', proyectos)
+   // socket.on('prueba', (proyectos) => {
+  //      console.log('desde socket io', proyectos)
 
+  //  })
+
+   // socket.emit('respuesta', { nombre: 'ritchie'})
+
+    socket.on('abrir proyecto', (proyecto) => {
+        console.log('desde el proyecto',proyecto)
+        socket.join(proyecto)
+
+       // socket.to().emit('respuesta', { nombre: 'ritchie'})
     })
 
-    socket.emit('respuesta', { nombre: 'ritchie'})
+    socket.on('nueva tarea', (tarea) => {
+        console.log('socket tarea', tarea)
+        const proyecto  = tarea.proyecto 
+        socket.on(proyecto).emit('tarea agregada',tarea )
 
+    })
 
 })
